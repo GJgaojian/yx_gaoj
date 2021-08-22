@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.baizhi.dao.VideoDao">
+
+    <resultMap id="all" type="Video">
+        <id column="vid" property="id"></id>
+        <result column="vtitle" property="title"></result>
+        <result column="vbrief" property="brief"></result>
+        <result column="vcover_path" property="coverPath"></result>
+        <result column="vvideo_path" property="videoPath"></result>
+        <result column="vcreate_date" property="createDate"></result>
+
+        <association property="category">
+            <id property="id" column="cid"></id>
+            <result property="cate_name" column="cate_name"></result>
+            <result property="levels" column="levels"></result>
+            <result property="parent_id" column="parent_id"></result>
+        </association>
+
+        <association property="user">
+            <id property="id" column="uid"></id>
+            <result property="username" column="username"></result>
+        </association>
+    </resultMap>
+
+    <!--List<Video> findAll();-->
+    <select id="findAll" resultMap="all">
+      select v.id as vid,v.title as vtitle,v.brief as vbrief,v.cover_path as vcover_path,v.video_path as vvideo_path,
+    v.create_date vcreate_date,v.category_id,v.user_id,v.group_id,c.id cid,
+       c.cate_name,c.levels,c.parent_id,u.id uid,u.username from yx_video v
+    left join yx_category c
+    on category_id=c.id
+    left join yx_user u
+    on v.user_id= u.id
+    </select>
+
+    <!--void add(Video video);-->
+    <insert id="add" parameterType="Video">
+        insert into yx_video(id,title,brief,cover_path,video_path,create_date) values(#{id},#{title},#{brief},#{coverPath},#{videoPath},#{createDate})
+    </insert>
+
+</mapper>

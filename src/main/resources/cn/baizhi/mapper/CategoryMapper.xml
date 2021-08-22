@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.baizhi.dao.CategoryDao">
+
+    <!--List<Category> queryByLevels(int levels);-->
+    <select id="queryByLevels" resultType="Category" parameterType="int">
+        select id,cate_name,levels from yx_category where levels=#{levels}
+    </select>
+
+    <!--List<Category> queryByParent(int parent);-->
+    <select id="queryByParent" resultType="Category" parameterType="String">
+        select id,cate_name,levels from yx_category where parent_id=#{parentId}
+    </select>
+
+
+    <!--void insertCategory(Category category);-->
+    <insert id="insertCategory" parameterType="Category">
+        insert into yx_category values(#{id},#{cate_name},#{levels},#{parent_id})
+    </insert>
+
+    <!--void deleteById(String id);-->
+    <delete id="deleteById" parameterType="String">
+        delete from yx_category where id = #{id}
+    </delete>
+
+</mapper>

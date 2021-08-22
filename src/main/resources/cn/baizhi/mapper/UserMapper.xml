@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.baizhi.dao.UserDao">
+
+    <sql id="all">
+        select id,username,phone,head_img,brief,wechat,create_date,status
+        from yx_user
+    </sql>
+
+    <!--List<User> queryByPage(int start, int end);-->
+    <select id="queryByPage" resultType="User">
+        <include refid="all"/> limit #{start},#{end}
+    </select>
+
+
+    <!--Integer queryCount();-->
+    <select id="queryCount" resultType="Integer">
+        select count(*) from yx_user
+    </select>
+
+    <!--void updateStatus(String id,int number);-->
+    <update id="updateStatus">
+        update yx_user set status=#{number} where id = #{id}
+    </update>
+
+    <!--void insertUser(User user);-->
+    <insert id="insertUser" parameterType="User">
+        insert into yx_user values(#{id},#{username},#{phone},#{head_img},#{brief},#{wechat},#{create_date},#{status})
+    </insert>
+
+    <!--void delete(String id);-->
+    <delete id="delete" parameterType="String">
+        delete from yx_user where id = #{id}
+    </delete>
+
+    <!--User queryById(String id);-->
+    <select id="queryById" parameterType="String" resultType="User">
+        <include refid="all"/> where id=#{id}
+    </select>
+</mapper>
